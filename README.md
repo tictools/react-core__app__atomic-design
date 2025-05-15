@@ -1,54 +1,94 @@
-# React + TypeScript + Vite
+# 📚 Book Tracker App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A basic application to manage read books, created with [Vite](https://vitejs.dev/), [React](https://react.dev/) and [TypeScript](https://www.typescriptlang.org/).
 
-Currently, two official plugins are available:
+The main goal is to practise separation of concerns within the project structure, inspired by Domain-Driven Design (DDD) principles, although not applied formally.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🏗️ Project Structure
 
-## Expanding the ESLint configuration
+The project is divided into two main folders:
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```
+📦src
+ ┣ 📂app       ← UI layer
+ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂BookCard
+ ┃ ┃ ┣ 📂BookForm
+ ┃ ┃ ┗ 📂BookList
+ ┃ ┗ 📜App.tsx
+ ┣ 📂core      ← Domain layer (not strict DDD, but inspired)
+ ┃ ┣ 📂domain
+ ┃ ┃ ┗ 📜book.ts
+ ┃ ┣ 📂mappers
+ ┃ ┃ ┗ 📜book.mapper.ts
+ ┃ ┗ 📂requests
+ ┃   ┗ 📜book.requests.ts
+ ┣ 📜main.tsx
+ ┗ 📜index.css
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### `/app`: User Interface
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Contains rendering and interaction logic, developed with React. Each component has its own encapsulated style using CSS Modules. The `BookForm` form is used for both adding and editing books.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+### `/core`: Domain Logic
+
+Inspired by DDD structure, but simplified:
+
+- `domain/`: defines the main `Book` type, equivalent to the domain entity.
+- `mappers/`: transforms data between formats (e.g., from backend to domain and vice versa). This would be the equivalent of the application layer.
+- `requests/`: contains backend calls (`json-server`). This part would correspond to infrastructure.
+
+## 🚀 How to Run the Project
+
+### 1. Install dependencies
+
+```bash
+npm install
 ```
+
+### 2. Start the frontend
+
+```bash
+npm run dev
+```
+
+### 3. Start the backend with `json-server`
+
+```bash
+npm run backend
+```
+
+Make sure the `db.json` file exists at the root and contains initial data:
+
+```json
+{
+  "books": []
+}
+```
+
+## 🧱 Technologies Used
+
+- Vite
+- React
+- TypeScript
+- CSS Modules
+- json-server (REST backend simulation)
+
+## 🔍 Learning Objectives
+
+- Separate concerns between domain logic and UI
+- Build reusable components
+- Use forms to create and edit entities
+- Simulate a domain-oriented architecture without fully applying DDD
+
+## 📂 Possible Future Improvements
+
+- Add validation with value objects
+- Introduce `zustand` or `tanstack-query` for state and data management
+- Write tests with Vitest + Testing Library
+- Deploy to Netlify or Vercel
+
+## ✍️ Author
+
+Initial project created for client-side development practice.

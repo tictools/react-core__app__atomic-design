@@ -1,0 +1,37 @@
+.book__list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.book__list--empty {
+  text-align: center;
+  padding: 2rem;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  margin-top: 2rem;
+}
+
+.book__list--empty h3 {
+  margin-top: 0;
+  color: #495057;
+  margin-bottom: 1rem;
+}
+
+.book__list--empty p {
+  color: #6c757d;
+}
+
+@media (min-width: 600px) {
+  .book__list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .book__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

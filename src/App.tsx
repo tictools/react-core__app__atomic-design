@@ -38,6 +38,7 @@ function App() {
       )}
       <BookList
         books={books}
+        isFormOpen={isFormOpen}
         onEdit={handleEdit}
         onDelete={handleDelete}
         onOpen={handleOpenForm}

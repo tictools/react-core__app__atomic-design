@@ -5,12 +5,19 @@ import styles from "./BookList.module.css";
 
 interface BookListProps {
   books: Book[];
+  isFormOpen: boolean;
   onEdit: (book: Book) => void;
   onDelete: (bookId: Book["id"]) => void;
   onOpen: (book: Book) => void;
 }
 
-export function BookList({ books, onEdit, onDelete, onOpen }: BookListProps) {
+export function BookList({
+  books,
+  isFormOpen,
+  onEdit,
+  onDelete,
+  onOpen,
+}: BookListProps) {
   if (books.length === 0) {
     return (
       <div className={styles["book__list--empty"]}>
@@ -24,11 +31,12 @@ export function BookList({ books, onEdit, onDelete, onOpen }: BookListProps) {
     <div className={styles["book__list"]}>
       {books.map((book) => (
         <BookCard
-          key={book.id}
           book={book}
-          onEdit={onEdit}
-          onDelete={onDelete}
-          onOpen={onOpen}
+          isFormOpen={isFormOpen}
+          handleOnDelete={onDelete}
+          handleOnEdit={onEdit}
+          handleOnOpen={onOpen}
+          key={book.id}
         />
       ))}
     </div>

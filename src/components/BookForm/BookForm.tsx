@@ -46,11 +46,11 @@ export function BookForm({ book, onSave, onCloseForm }: BookFormProps) {
           </label>
           <input
             className={styles["form__input"]}
-            name="author"
+            name="authorFullName"
             id="author"
-            value={formData.author}
+            value={formData.authorFullName}
             onChange={handleChange}
-            placeholder="Enter author name"
+            placeholder="Enter author full name"
             required
           />
         </div>
@@ -60,9 +60,9 @@ export function BookForm({ book, onSave, onCloseForm }: BookFormProps) {
         <div className={styles["form__group"]}>
           <input
             className={styles["form__input"]}
-            name="year"
+            name="publishedYear"
             id="year"
-            value={formData.year}
+            value={formData.publishedYear}
             placeholder="Enter publication year"
             onChange={handleChange}
             required
@@ -74,13 +74,13 @@ export function BookForm({ book, onSave, onCloseForm }: BookFormProps) {
           </label>
           <select
             className={styles["form__select"]}
-            name="status"
+            name="currentStatus"
             id="status"
-            value={formData.status}
+            value={formData.currentStatus}
             onChange={handleChange}
           >
             <option value="pending">Pending</option>
-            <option value="in progress">In progress</option>
+            <option value="inProgress">In progress</option>
             <option value="read">Read</option>
           </select>
         </div>

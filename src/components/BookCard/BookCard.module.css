@@ -74,13 +74,17 @@
   border-top: 1px solid #f0f0f0;
 }
 
-.card__button--edit,
-.card__button--delete {
+.card__button {
   padding: 0.5rem 0.75rem;
   border-radius: 4px;
   font-size: 0.9rem;
   cursor: pointer;
   border: none;
+}
+
+.card__button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .card__button--edit {

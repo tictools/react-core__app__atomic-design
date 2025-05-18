@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import type { Book } from "../types/Book";
 
-const defaultBook: Omit<Book, "id"> = {
+type BookWithOmmitedId = Omit<Book, "id">;
+
+const defaultBook: BookWithOmmitedId = {
   title: "",
-  author: "",
-  year: "",
-  status: "pending",
+  authorFullName: "",
+  publishedYear: "",
+  currentStatus: "pending",
 };
 
 type UseBookFormParams = {
@@ -14,16 +16,16 @@ type UseBookFormParams = {
 };
 
 export const useBookForm = ({ book, onSave }: UseBookFormParams) => {
-  const [formData, setFormData] = useState<Omit<Book, "id">>(defaultBook);
+  const [formData, setFormData] = useState<BookWithOmmitedId>(defaultBook);
 
   useEffect(() => {
     if (book) {
       setFormData((prevBook) => ({
         ...prevBook,
         title: book.title,
-        author: book.author,
-        year: book.year,
-        status: book.status,
+        authorFullName: book.authorFullName,
+        publishedYear: book.publishedYear,
+        currentStatus: book.currentStatus,
       }));
     }
   }, [book]);
@@ -32,7 +34,6 @@ export const useBookForm = ({ book, onSave }: UseBookFormParams) => {
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-
     setFormData((prevState) => ({
       ...prevState,
       [name]: value,

@@ -6,28 +6,41 @@ const BASE_URL = "http://localhost:3000/books";
 
 const updateCurrentBookIfMatched = ({
   currentBook,
-  book,
+  bookToDomain,
 }: {
   currentBook: Book;
-  book: Book;
-}) => (currentBook.id === book.id ? book : currentBook);
+  bookToDomain: Book;
+}) => (currentBook.id === bookToDomain.id ? bookToDomain : currentBook);
 
-const checkBookExists = ({ books, book }: { books: Book[]; book: Book }) => {
-  return books.some((currentBook) => currentBook.id === book.id);
+const checkBookExists = ({
+  books,
+  bookToDomain,
+}: {
+  books: Book[];
+  bookToDomain: Book;
+}) => {
+  return books.some((currentBook) => currentBook.id === bookToDomain.id);
 };
 
-const updateBooks = ({ book }: { book: Book }) => {
+const updateBooks = ({ bookDTO }: { bookDTO: BookApiDTO }) => {
+  const bookToDomain = {
+    id: bookDTO.id,
+    title: bookDTO.title,
+    authorFullName: bookDTO.author_full_name,
+    publishedYear: bookDTO.published_year,
+    currentStatus: bookDTO.current_status,
+  };
   return (books: Book[]) => {
     const bookExists = checkBookExists({
       books,
-      book,
+      bookToDomain,
     });
 
     return bookExists
       ? books.map((currentBook) =>
-          updateCurrentBookIfMatched({ currentBook, book })
+          updateCurrentBookIfMatched({ currentBook, bookToDomain })
         )
-      : [...books, book];
+      : [...books, bookToDomain];
   };
 };
 
@@ -78,7 +91,7 @@ export const useBooks = () => {
         body: JSON.stringify(bookDTO),
       })
       .then((response) => response.json())
-      .then((book) => setBooks(updateBooks({ book })))
+      .then((bookDTO) => setBooks(updateBooks({ bookDTO })))
       .catch((error) => console.error(`🚨 `, error))
       .finally(() => setEditingBook(null));
   };

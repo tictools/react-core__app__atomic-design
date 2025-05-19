@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Book, BookApiDTO } from "../../core/Book/types";
+import { httpRequest } from "../../services/httpService/httpRequest";
 
 const initialBooks: Book[] = [];
 const BASE_URL = "http://localhost:3000/books";
@@ -53,9 +54,7 @@ export const useBooks = () => {
   const handleResetEdit = () => setEditingBook(null);
 
   useEffect(() => {
-    globalThis
-      .fetch("http://localhost:3000/books")
-      .then((response) => response.json() as Promise<BookApiDTO[]>)
+    httpRequest<BookApiDTO[]>({ url: BASE_URL })
       .then((books) => {
         const booksToDomain: Book[] = books.map((book) => ({
           id: book.id,
@@ -82,15 +81,11 @@ export const useBooks = () => {
       current_status: bookToSave.currentStatus,
     };
 
-    globalThis
-      .fetch(urlToFetch, {
-        method,
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(bookDTO),
-      })
-      .then((response) => response.json())
+    httpRequest<BookApiDTO>({
+      url: urlToFetch,
+      method,
+      body: bookDTO,
+    })
       .then((bookDTO) => setBooks(updateBooks({ bookDTO })))
       .catch((error) => console.error(`🚨 `, error))
       .finally(() => setEditingBook(null));

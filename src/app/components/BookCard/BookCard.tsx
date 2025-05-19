@@ -1,4 +1,4 @@
-import type { Book, BookStatus } from "../../../core/Book/types/Book";
+import type { Book, BookStatus } from "../../../core/Book/types";
 import styles from "./BookCard.module.css";
 
 interface BookCardProps {

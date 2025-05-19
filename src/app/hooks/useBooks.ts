@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Book, BookApiDTO } from "../types/Book";
+import type { Book, BookApiDTO } from "../../core/Book/types";
 
 const initialBooks: Book[] = [];
 const BASE_URL = "http://localhost:3000/books";

@@ -5,12 +5,12 @@ export interface HttpRequestConfig {
   headers?: HeadersInit;
 }
 
-export async function httpRequest<T>({
+export const httpRequest = async <T>({
   url,
   method = "GET",
   body,
   headers,
-}: HttpRequestConfig): Promise<T> {
+}: HttpRequestConfig): Promise<T> => {
   const response = await globalThis.fetch(url, {
     method,
     headers: {
@@ -25,4 +25,4 @@ export async function httpRequest<T>({
   }
 
   return await response.json();
-}
+};

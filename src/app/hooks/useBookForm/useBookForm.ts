@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import type { Book } from "../../core/Book/types";
+import type { Book } from "../../../core/Book/types";
 
 type BookWithOmmitedId = Omit<Book, "id">;
 

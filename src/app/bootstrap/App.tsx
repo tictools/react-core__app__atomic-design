@@ -1,7 +1,7 @@
 import { BookForm } from "../components/BookForm/BookForm";
 import { BookList } from "../components/BookList/BookList";
-import { useBookFormVisibility } from "../hooks/useBookFormVisibility";
-import { useBooks } from "../hooks/useBooks";
+import { useBookFormVisibility } from "../hooks/useBookFormVisibility/useBookFormVisibility";
+import { useBooks } from "../hooks/useBooks/useBooks";
 
 import styles from "./App.module.css";
 

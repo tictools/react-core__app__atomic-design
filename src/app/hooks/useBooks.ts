@@ -1,49 +1,38 @@
 import { useEffect, useState } from "react";
-import type { Book, BookApiDTO } from "../../core/Book/types";
-import { httpRequest } from "../../services/httpService/httpRequest";
+import { createBook } from "../../core/Book/queries/createBook";
+import { deleteBook } from "../../core/Book/queries/deleteBook";
+import { getAllBooks } from "../../core/Book/queries/getAllBooks";
+import { updateBook } from "../../core/Book/queries/updateBook";
+import type { Book } from "../../core/Book/types";
 
 const initialBooks: Book[] = [];
-const BASE_URL = "http://localhost:3000/books";
 
-const updateCurrentBookIfMatched = ({
-  currentBook,
-  bookToDomain,
-}: {
-  currentBook: Book;
-  bookToDomain: Book;
-}) => (currentBook.id === bookToDomain.id ? bookToDomain : currentBook);
-
-const checkBookExists = ({
+const bookExistsInList = ({
   books,
-  bookToDomain,
+  bookToCheck,
 }: {
   books: Book[];
-  bookToDomain: Book;
-}) => {
-  return books.some((currentBook) => currentBook.id === bookToDomain.id);
+  bookToCheck: Book;
+}): boolean => {
+  return books.some((book) => book.id === bookToCheck.id);
 };
 
-const updateBooks = ({ bookDTO }: { bookDTO: BookApiDTO }) => {
-  const bookToDomain = {
-    id: bookDTO.id,
-    title: bookDTO.title,
-    authorFullName: bookDTO.author_full_name,
-    publishedYear: bookDTO.published_year,
-    currentStatus: bookDTO.current_status,
+const replaceBookIfMatched =
+  ({ bookToReplace }: { bookToReplace: Book }) =>
+  (book: Book): Book => {
+    return book.id === bookToReplace.id ? bookToReplace : book;
   };
-  return (books: Book[]) => {
-    const bookExists = checkBookExists({
-      books,
-      bookToDomain,
-    });
 
-    return bookExists
-      ? books.map((currentBook) =>
-          updateCurrentBookIfMatched({ currentBook, bookToDomain })
-        )
-      : [...books, bookToDomain];
+const upsertBookInList =
+  ({ bookToUpsert }: { bookToUpsert: Book }) =>
+  (books: Book[]): Book[] => {
+    return bookExistsInList({ books, bookToCheck: bookToUpsert })
+      ? books.map(replaceBookIfMatched({ bookToReplace: bookToUpsert }))
+      : [...books, bookToUpsert];
   };
-};
+
+const filterOutBookById = (idToRemove: Book["id"]) => (books: Book[]) =>
+  books.filter((book) => book.id !== idToRemove);
 
 export const useBooks = () => {
   const [books, setBooks] = useState<Book[]>(initialBooks);
@@ -54,56 +43,23 @@ export const useBooks = () => {
   const handleResetEdit = () => setEditingBook(null);
 
   useEffect(() => {
-    httpRequest<BookApiDTO[]>({ url: BASE_URL })
-      .then((books) => {
-        const booksToDomain: Book[] = books.map((book) => ({
-          id: book.id,
-          title: book.title,
-          authorFullName: book.author_full_name,
-          publishedYear: book.published_year,
-          currentStatus: book.current_status,
-        }));
-
-        return setBooks(booksToDomain);
-      })
+    getAllBooks()
+      .then(setBooks)
       .catch((error) => console.error(`🚨 `, error));
   }, []);
 
   const handleSave = (bookToSave: Book) => {
-    const urlToFetch = editingBook ? `${BASE_URL}/${bookToSave.id}` : BASE_URL;
-    const method = editingBook ? "PATCH" : "POST";
+    const httpSaveAction = editingBook ? updateBook : createBook;
 
-    const bookDTO = {
-      id: bookToSave.id,
-      title: bookToSave.title,
-      author_full_name: bookToSave.authorFullName,
-      published_year: bookToSave.publishedYear,
-      current_status: bookToSave.currentStatus,
-    };
-
-    httpRequest<BookApiDTO>({
-      url: urlToFetch,
-      method,
-      body: bookDTO,
-    })
-      .then((bookDTO) => setBooks(updateBooks({ bookDTO })))
+    httpSaveAction(bookToSave)
+      .then((bookToUpsert) => setBooks(upsertBookInList({ bookToUpsert })))
       .catch((error) => console.error(`🚨 `, error))
       .finally(() => setEditingBook(null));
   };
 
   const handleDelete = (bookId: Book["id"]) => {
-    globalThis
-      .fetch(`${BASE_URL}/${bookId}`, {
-        method: "DELETE",
-      })
-      .then((response) => response.json())
-      .then(() => {
-        const filteredBooks = books.filter(
-          (currentBook) => currentBook.id !== bookId
-        );
-
-        setBooks(filteredBooks);
-      })
+    deleteBook(bookId)
+      .then(() => setBooks(filterOutBookById(bookId)))
       .catch((error) => console.error(`🚨 `, error))
       .finally(() => setEditingBook(null));
   };

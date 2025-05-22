@@ -44,29 +44,6 @@
   flex-grow: 1;
 }
 
-.card__status {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.card__status--read {
-  background-color: #e8f5e9;
-  color: #2e7d32;
-}
-
-.card__status--in-progress {
-  background-color: #e3f2fd;
-  color: #1565c0;
-}
-
-.card__status--pending {
-  background-color: #fff8e1;
-  color: #f57f17;
-}
-
 .card__footer {
   padding: 0.75rem 1rem;
   display: flex;

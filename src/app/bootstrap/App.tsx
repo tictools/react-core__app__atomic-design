@@ -1,5 +1,5 @@
-import { BookForm } from "../components/BookForm/BookForm";
-import { BookList } from "../components/BookList/BookList";
+import { BookForm } from "../components/organisms/BookForm/BookForm";
+import { BookList } from "../components/organisms/BookList/BookList";
 import { useBookFormVisibility } from "../hooks/useBookFormVisibility/useBookFormVisibility";
 import { useBooks } from "../hooks/useBooks/useBooks";
 

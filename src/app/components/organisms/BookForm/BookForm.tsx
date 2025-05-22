@@ -1,5 +1,6 @@
-import { type Book } from "../../../core/Book/types";
-import { useBookForm } from "../../hooks/useBookForm/useBookForm";
+import { type Book } from "../../../../core/Book/types";
+import { useBookForm } from "../../../hooks/useBookForm/useBookForm";
+import { BasicContainer } from "../../atoms/BasicContainer/BasicContainer";
 
 import styles from "./BookForm.module.css";
 
@@ -21,12 +22,12 @@ export function BookForm({ book, onSave, onCloseForm }: BookFormProps) {
   };
 
   return (
-    <div className={styles["formContainer"]}>
+    <BasicContainer customClassName={styles["formContainer"]}>
       <h2 className={styles["formTitle"]}>
         {book ? "Edit Book" : "Add New Book"}
       </h2>
       <form onSubmit={handleOnSubmit} className={styles["form"]}>
-        <div className={styles["form__group"]}>
+        <BasicContainer customClassName={styles["form__group"]}>
           <label htmlFor="title" className={styles["label"]}>
             Title
           </label>
@@ -39,8 +40,8 @@ export function BookForm({ book, onSave, onCloseForm }: BookFormProps) {
             placeholder="Enter book title"
             required
           />
-        </div>
-        <div className={styles["form__group"]}>
+        </BasicContainer>
+        <BasicContainer customClassName={styles["form__group"]}>
           <label htmlFor="author" className={styles["label"]}>
             Author
           </label>
@@ -53,11 +54,11 @@ export function BookForm({ book, onSave, onCloseForm }: BookFormProps) {
             placeholder="Enter author full name"
             required
           />
-        </div>
+        </BasicContainer>
         <label htmlFor="year" className={styles["label"]}>
           Publication Year
         </label>
-        <div className={styles["form__group"]}>
+        <BasicContainer customClassName={styles["form__group"]}>
           <input
             className={styles["form__input"]}
             name="publishedYear"
@@ -67,8 +68,8 @@ export function BookForm({ book, onSave, onCloseForm }: BookFormProps) {
             onChange={handleChange}
             required
           />
-        </div>
-        <div className={styles["form__group"]}>
+        </BasicContainer>
+        <BasicContainer customClassName={styles["form__group"]}>
           <label htmlFor="status" className={styles["label"]}>
             Reading Status
           </label>
@@ -83,12 +84,12 @@ export function BookForm({ book, onSave, onCloseForm }: BookFormProps) {
             <option value="inProgress">In progress</option>
             <option value="read">Read</option>
           </select>
-        </div>
+        </BasicContainer>
 
         <button className={styles["form__button"]} type="submit">
           {book ? "Update" : "Add book"}
         </button>
       </form>
-    </div>
+    </BasicContainer>
   );
 }

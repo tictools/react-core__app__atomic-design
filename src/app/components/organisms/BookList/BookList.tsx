@@ -1,4 +1,7 @@
-import type { Book } from "../../../core/Book/types";
+import type { Book } from "../../../../core/Book/types";
+import { BasicContainer } from "../../atoms/BasicContainer/BasicContainer";
+import { HeadingLevel3 } from "../../atoms/HeadingLevel3/HeadingLevel3";
+import { TextBlock } from "../../atoms/TextBlock/TextBlock";
 import { BookCard } from "../BookCard/BookCard";
 
 import styles from "./BookList.module.css";
@@ -20,15 +23,15 @@ export function BookList({
 }: BookListProps) {
   if (books.length === 0) {
     return (
-      <div className={styles["book__list--empty"]}>
-        <h3>Your collection is empty</h3>
-        <p>📚 Add your first book to get started!</p>
-      </div>
+      <BasicContainer customClassName={styles["book__list--empty"]}>
+        <HeadingLevel3>Your collection is empty</HeadingLevel3>
+        <TextBlock>📚 Add your first book to get started!</TextBlock>
+      </BasicContainer>
     );
   }
 
   return (
-    <div className={styles["book__list"]}>
+    <BasicContainer customClassName={styles["book__list"]}>
       {books.map((book) => (
         <BookCard
           book={book}
@@ -39,6 +42,6 @@ export function BookList({
           key={book.id}
         />
       ))}
-    </div>
+    </BasicContainer>
   );
 }

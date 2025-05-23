@@ -1,9 +1,10 @@
-import { BookForm } from "./components/BookForm/BookForm";
-import { BookList } from "./components/BookList/BookList";
-import { useBooks } from "./hooks/useBooks";
+import { BookForm } from "../components/BookForm/BookForm";
+import { BookList } from "../components/BookList/BookList";
+import { useBookFormVisibility } from "../hooks/useBookFormVisibility/useBookFormVisibility";
+import { useBooks } from "../hooks/useBooks/useBooks";
 
 import styles from "./App.module.css";
-import { useBookFormVisibility } from "./hooks/useBookFormVisibility";
+
 function App() {
   const { isFormOpen, handleOpenForm, handleCloseForm, toggleForm } =
     useBookFormVisibility();

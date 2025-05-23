@@ -1,5 +1,5 @@
-import { useBookForm } from "../../hooks/useBookForm";
-import { type Book } from "../../types/Book";
+import { type Book } from "../../../core/Book/types";
+import { useBookForm } from "../../hooks/useBookForm/useBookForm";
 
 import styles from "./BookForm.module.css";
 
